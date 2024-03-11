@@ -98,10 +98,6 @@ public class Bot(int[][] inputEniviornment_IntArray2D)
 
         System.Console.WriteLine();
 
-        SpeechSynthesizer a = new();
-
-        a.SetOutputToDefaultAudioDevice();
-
         string b="";
 
         for(int y = 0; y < rowDifference_Int; y++)
@@ -116,11 +112,27 @@ public class Bot(int[][] inputEniviornment_IntArray2D)
 
             b+=column_String+" ";
             
-        }   
+        }
 
-        a.Speak(b);
+        SpeechSynthesizer speechToWav_SpeechSynthesizer = new();
 
-        a.Resume();
+        speechToWav_SpeechSynthesizer.Rate=1;
+
+        speechToWav_SpeechSynthesizer.SelectVoiceByHints(VoiceGender.Female,VoiceAge.Adult);
+
+        speechToWav_SpeechSynthesizer.SetOutputToWaveFile("speech.wav");
+
+        speechToWav_SpeechSynthesizer.Speak(b);
+
+        StreamWriter write_Stream = new("output.txt");
+
+        write_Stream.WriteLine(b);
+
+        write_Stream.Dispose();
+
+        System.Console.WriteLine("Press Any Key To Close");
+
+        Console.ReadKey();
     
     }
 
