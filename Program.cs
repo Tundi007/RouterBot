@@ -11,7 +11,7 @@ public partial class Program
 
         int[][] mapEniviornment_IntArray2D =[];
 
-        (bool start_Bool,bool goal_Bool,bool lowerStart_Bool)=(false,false,false);
+        (bool shorterStart_Bool,bool start_Bool,bool goal_Bool,bool lowerStart_Bool)=(false,false,false,false);
 
         System.Console.WriteLine("Enter A Number Between 1 And 100");
 
@@ -88,9 +88,7 @@ public partial class Program
 
                 bool result_Bool = false;
 
-                row_Int++;
-
-                System.Console.WriteLine($"Enter Row {row_Int} (Enter \"exit\" To Close Program)");
+                System.Console.WriteLine($"Enter Row {row_Int+1} (Enter \"exit\" To Close Program)");
 
                 userLine_String = System.Console.ReadLine();
 
@@ -155,16 +153,16 @@ public partial class Program
                 if(row_Int+1 == dimension_Int)
                 {
 
-                    if(start_Bool)
+                    if(!start_Bool & !userLine_String.Contains('b'))
                     {
 
-                        System.Console.WriteLine("6: Last Row, Start Is Not Set, Please Enter A Starting Point");
+                        System.Console.WriteLine("6: Last Row, Goal Is Not Set, Please Enter A Starting Point");
 
                         result_Bool = true;
                         
                     }
 
-                    if(goal_Bool)
+                    if(!goal_Bool & !userLine_String.Contains('b'))
                     {
                     
                         System.Console.WriteLine("7: Last Row, Start Is Not Set, Please Enter A Starting Point");
@@ -179,11 +177,31 @@ public partial class Program
 
             }
 
-            if(userLine_String.Contains('b')) start_Bool = true;
+            int startColumn_Int=0;
 
-            if(userLine_String.Contains('c')) goal_Bool = true; 
+            if(userLine_String.Contains('b'))
+            {
 
+                startColumn_Int = userLine_String.IndexOf('b');
+                
+                start_Bool = true;
+                
+            }
+
+            int goalColumn_Int = 0;
+
+            if(userLine_String.Contains('c'))
+            {
+
+                goalColumn_Int = userLine_String.IndexOf('c');
+                
+                goal_Bool = true;
+                
+            }          
+            
             if(goal_Bool & !start_Bool)lowerStart_Bool = true;
+
+            shorterStart_Bool = goalColumn_Int<startColumn_Int;
 
             mapEniviornment_IntArray2D[row_Int] = [.. userLine_String.Replace("-","0").Replace("b","1").Replace("c","1")];
 
@@ -193,18 +211,9 @@ public partial class Program
 
         }
 
-        if(!goal_Bool | !start_Bool)
-        {
-
-            System.Console.WriteLine("The Goal and/or Start Is Missing! Exiting Program");
-
-            return;
-
-        }
-
         Bot myBot_BotClass = new(mapEniviornment_IntArray2D);
 
-        myBot_BotClass.Solve_Function(lowerStart_Bool);
+        myBot_BotClass.Solve_Function(lowerStart_Bool,shorterStart_Bool);
                 
     }
 

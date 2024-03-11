@@ -1,3 +1,5 @@
+using System.Speech.Synthesis;
+
 namespace BotBattery;
 public class Bot(int[][] inputEniviornment_IntArray2D)
 {
@@ -8,7 +10,7 @@ public class Bot(int[][] inputEniviornment_IntArray2D)
 
     private readonly int[][] mappedEniviornment_IntArray2D = inputEniviornment_IntArray2D;
 
-    public void Solve_Function(bool lowerStart_Bool)
+    public void Solve_Function(bool lowerStart_Bool,bool shorterStart_Bool)
     {
 
         int coords_Int = 0;        
@@ -38,123 +40,88 @@ public class Bot(int[][] inputEniviornment_IntArray2D)
                 foreach(int element_Int in mappedEniviornment_IntArray2D[row_int])
                 {
 
-                    if(element_Int==1)routeCoords_IntArray[coords_Int,1] = columnt_Int;
+                    if(element_Int==1)
+                    {
+
+                        if(coords_Int==1)routeCoords_IntArray[coords_Int,0] = row_int;
+
+                        routeCoords_IntArray[coords_Int,1] = columnt_Int;
+
+                        coords_Int++;
+                        
+                    }
 
                     columnt_Int++;
 
                 }
-
-                coords_Int++;
                 
             }
             
         }
 
-        RouteCoords_IntArray(lowerStart_Bool);        
+        RouteCoords_IntArray(lowerStart_Bool,shorterStart_Bool);        
 
     }
 
-    void RouteCoords_IntArray(bool lowerStart_Bool)
+    void RouteCoords_IntArray(bool lowerStart_Bool,bool shorterStart_Bool)
     {
-
-        List<string>routeHeight_StringArray = [];
-
-        List<string>routeWidth_StringArray = [];
-
-        List<string>routeSum_StringArray = [];
         
-        string row_String;
+        string row_String = "Down";
         
-        string column_String;
+        string column_String = "Left";
 
-        int columnDifference_Int;
+        int rowDifference_Int = routeCoords_IntArray[0,0]-routeCoords_IntArray[1,0];
 
-        int rowDif_Int = routeCoords_IntArray[0,0]-routeCoords_IntArray[1,0];
+        int columnDifference_Int = routeCoords_IntArray[0, 1] - routeCoords_IntArray[1, 1];
 
-        if(rowDif_Int<0) rowDif_Int=-rowDif_Int ;
+        if(rowDifference_Int<0) rowDifference_Int=-rowDifference_Int;
+
+        if(columnDifference_Int<0) columnDifference_Int=-columnDifference_Int;
+
+        if(shorterStart_Bool)
+        {
+
+            column_String = "Right";
+
+        }
 
         if (lowerStart_Bool)
         {
 
             row_String = "UP";
-
-            columnDifference_Int = routeCoords_IntArray[0, 1] - routeCoords_IntArray[1, 1];
-
-            if (columnDifference_Int < 0)
-            {
-
-                columnDifference_Int = -columnDifference_Int;
-
-                column_String = "Left";
-
-            }
-            else
-            {
-
-                column_String = "Right";
-
-            }
-
-        }
-        else
-        {
-
-            row_String = "Down";
-
-            columnDifference_Int = routeCoords_IntArray[0, 1] - routeCoords_IntArray[1, 1];
-
-            if (columnDifference_Int < 0)
-            {
-
-                columnDifference_Int = -columnDifference_Int;
-
-                column_String = "Right";
-
-            }
-            else
-            {
-
-                column_String = "Left";
-
-            }
-
+            
         }
 
         Console.Clear();
-
-        string[] directions_String = [];
-
-        int columnElement_Int=0;
-
-        for (int y = 0; y < rowDif_Int+columnDifference_Int++; y++)
-        {
-
-            if(columnElement_Int < columnDifference_Int)
-            {
-
-                columnElement_Int++;
-
-                directions_String[y] = column_String;
-
-                y++;
-                
-            }
-
-            directions_String[y] = row_String;
-            
-        }        
         
         System.Console.WriteLine("Finished");
 
         System.Console.WriteLine();
 
-        foreach(string direction_String in directions_String)
+        SpeechSynthesizer a = new();
+
+        a.SetOutputToDefaultAudioDevice();
+
+        string b="";
+
+        for(int y = 0; y < rowDifference_Int; y++)
         {
 
-            System.Console.WriteLine(direction_String);
-
+            b+=row_String+" ";                
+            
         }
 
+        for(int i = 0; i < columnDifference_Int;i++)
+        {
+
+            b+=column_String+" ";
+            
+        }   
+
+        a.Speak(b);
+
+        a.Resume();
+    
     }
 
 }
