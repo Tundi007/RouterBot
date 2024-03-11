@@ -7,7 +7,7 @@ public partial class Program
 {
 
     public static void Main(string[] args)
-    {
+    {       
 
         int[][] mapEniviornment_IntArray2D =[];
 
@@ -16,6 +16,8 @@ public partial class Program
         System.Console.WriteLine("Enter A Number Between 1 And 100");
 
         bool isNotNumber_Bool = !int.TryParse(Console.ReadLine(), out int dimension_Int);
+
+        Console.Clear();
 
         while (isNotNumber_Bool | DimensionIsFalse_SubFunction(dimension_Int))
         {
@@ -27,8 +29,6 @@ public partial class Program
         }
 
         Console.Clear();
-
-        System.Console.WriteLine(dimension_Int);
         
         static bool DimensionIsFalse_SubFunction(int dimension_Int)
         {
@@ -72,7 +72,7 @@ public partial class Program
 
             int exitCode_Int = RandomNumberGenerator.GetInt32(65535);
 
-            while(SubFunction(row_Int,exitCode_Int,out int exit_Int,out userLine_String))
+            while(SubFunction(exitCode_Int,out int exit_Int,out userLine_String))
             {
 
                 if(exitCode_Int == exit_Int) return;
@@ -81,7 +81,9 @@ public partial class Program
                 
             }
 
-            bool SubFunction(int row_Int,int exitCode_Int,out int exit_Int,out string? userLine_String)
+            userLine_String??="";
+
+            bool SubFunction(int exitCode_Int,out int exit_Int,out string? userLine_String)
             {
 
                 bool result_Bool = false;
@@ -126,34 +128,55 @@ public partial class Program
                 if(!GoalStartRule_GeneratedRegex().IsMatch(userLine_String))
                 {                    
                 
-                    System.Console.WriteLine("3:The Line Must Only Contain One [c,b]");
+                    System.Console.WriteLine("3:The Line Must Contain Only One \"c\" Or One \"b\"");
 
                     result_Bool = true;
                 
                 }
 
+                if(goal_Bool & userLine_String.Contains('c'))
+                {
+
+                    System.Console.WriteLine("4: Goal Is Already Set, Can't Add A Second One");
+
+                    result_Bool = true;
+
+                }
+                
+                if(start_Bool & userLine_String.Contains('b'))
+                {
+
+                    System.Console.WriteLine("5: Start Is Already Set, Can't Add A Second One");
+
+                    result_Bool = true;
+
+                }
+
+                if(row_Int+1 == dimension_Int)
+                {
+
+                    if(start_Bool)
+                    {
+
+                        System.Console.WriteLine("6: Last Row, Start Is Not Set, Please Enter A Starting Point");
+
+                        result_Bool = true;
+                        
+                    }
+
+                    if(goal_Bool)
+                    {
+                    
+                        System.Console.WriteLine("7: Last Row, Start Is Not Set, Please Enter A Starting Point");
+
+                        result_Bool = true;
+                        
+                    }
+
+                }
+
                 return result_Bool;
 
-            }
-
-            userLine_String??="";
-
-            if(goal_Bool & userLine_String.Contains('c'))
-            {
-
-                System.Console.WriteLine("Found More Than One Goal, Exiting");
-                
-                return;
-                
-            }
-
-            if(start_Bool & userLine_String.Contains('b'))
-            {
-
-                System.Console.WriteLine("Found More Than One Start, Exiting");
-                
-                return;
-                
             }
 
             if(userLine_String.Contains('b')) start_Bool = true;

@@ -45,17 +45,6 @@ public class Bot(int[][] inputEniviornment_IntArray2D)
                 }
 
                 coords_Int++;
-
-                if(coords_Int>2)
-                {
-
-                    System.Console.WriteLine("Detected Multipl Starts and/or Goals! Exiting Program");
-
-                    Thread.Sleep(1000);
-
-                    return;
-
-                }
                 
             }
             
