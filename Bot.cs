@@ -33,7 +33,16 @@ public class Bot(int[][] inputEniviornment_IntArray2D)
 
                 routeCoords_IntArray[coords_Int,0] = row_int;
 
-                routeCoords_IntArray[coords_Int,1] = Array.IndexOf(mappedEniviornment_IntArray2D,1);
+                int columnt_Int=0;
+
+                foreach(int element_Int in mappedEniviornment_IntArray2D[row_int])
+                {
+
+                    if(element_Int==1)routeCoords_IntArray[coords_Int,1] = columnt_Int;
+
+                    columnt_Int++;
+
+                }
 
                 coords_Int++;
 
@@ -64,53 +73,56 @@ public class Bot(int[][] inputEniviornment_IntArray2D)
         List<string>routeWidth_StringArray = [];
 
         List<string>routeSum_StringArray = [];
-
-        string row_String = "";
-
-        string column_String = "";
+        
+        string row_String;
+        
+        string column_String;
 
         int columnDifference_Int;
 
-        int rowDif_Int = routeCoords_IntArray[0,1]-routeCoords_IntArray[1,1];
+        int rowDif_Int = routeCoords_IntArray[0,0]-routeCoords_IntArray[1,0];
 
         if(rowDif_Int<0) rowDif_Int=-rowDif_Int ;
 
-        if(lowerStart_Bool)
+        if (lowerStart_Bool)
         {
 
             row_String = "UP";
 
-            columnDifference_Int = routeCoords_IntArray[0,2]-routeCoords_IntArray[1,2];
+            columnDifference_Int = routeCoords_IntArray[0, 1] - routeCoords_IntArray[1, 1];
 
-            if(columnDifference_Int<0)
+            if (columnDifference_Int < 0)
             {
 
                 columnDifference_Int = -columnDifference_Int;
 
                 column_String = "Left";
 
-            }else
+            }
+            else
             {
 
                 column_String = "Right";
 
             }
 
-        }else
+        }
+        else
         {
 
             row_String = "Down";
 
-            columnDifference_Int = routeCoords_IntArray[0,2]-routeCoords_IntArray[1,2];
+            columnDifference_Int = routeCoords_IntArray[0, 1] - routeCoords_IntArray[1, 1];
 
-            if(columnDifference_Int<0)
+            if (columnDifference_Int < 0)
             {
 
                 columnDifference_Int = -columnDifference_Int;
 
                 column_String = "Right";
 
-            }else
+            }
+            else
             {
 
                 column_String = "Left";
@@ -119,18 +131,39 @@ public class Bot(int[][] inputEniviornment_IntArray2D)
 
         }
 
-        for (int y = 0; y < rowDif_Int; y++)
+        Console.Clear();
+
+        string[] directions_String = [];
+
+        int columnElement_Int=0;
+
+        for (int y = 0; y < rowDif_Int+columnDifference_Int++; y++)
         {
 
-            System.Console.WriteLine(row_String);
-            
-        }
+            if(columnElement_Int < columnDifference_Int)
+            {
 
-        for (int i = 0; i < columnDifference_Int; i++)
+                columnElement_Int++;
+
+                directions_String[y] = column_String;
+
+                y++;
+                
+            }
+
+            directions_String[y] = row_String;
+            
+        }        
+        
+        System.Console.WriteLine("Finished");
+
+        System.Console.WriteLine();
+
+        foreach(string direction_String in directions_String)
         {
 
-            System.Console.WriteLine(column_String);
-            
+            System.Console.WriteLine(direction_String);
+
         }
 
     }
