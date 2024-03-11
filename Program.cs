@@ -15,27 +15,33 @@ public partial class Program
 
         System.Console.WriteLine("Enter A Number Between 1 And 100");
 
-        int dimension_Int;
+        string? suerDimension_String = Console.ReadLine();
 
-        while(!int.TryParse(Console.ReadLine(), out dimension_Int) & DimensionCheck_SubFunction(dimension_Int))
+        bool isNotNumber_Bool = !int.TryParse(Console.ReadLine(), out int dimension_Int);
+
+        while (isNotNumber_Bool | DimensionIsFalse_SubFunction(dimension_Int))
         {
 
             System.Console.WriteLine("Enter A Number Between 1 And 100");
 
-            Console.Clear();
+            _ = int.TryParse(Console.ReadLine(), out dimension_Int);
             
         }
 
-        static bool DimensionCheck_SubFunction(int dimension_Int)
+        Console.Clear();
+
+        System.Console.WriteLine(dimension_Int);
+        
+        static bool DimensionIsFalse_SubFunction(int dimension_Int)
         {
 
             if(99<dimension_Int)
             {
+                
+                Console.Clear();
 
                 System.Console.WriteLine("Dimension Should Be Smaller Than 100");
 
-                Thread.Sleep(500);
-                
                 return true;
                 
             }
@@ -43,10 +49,10 @@ public partial class Program
             if(dimension_Int<2)
             {
 
+                Console.Clear();                
+
                 System.Console.WriteLine("Dimension Can't Be Smaller Than 2");
 
-                Thread.Sleep(500);
-                
                 return true;
                 
             }

@@ -1,17 +1,29 @@
 namespace BotBattery;
-public class Bot(in int[][] inputEniviornment_IntArray2D)
+public class Bot(int[][] inputEniviornment_IntArray2D)
 {
-    
-    int dimensions_Int = 0;
 
-    int[,] routeCoords_IntArray = new int[2,2];
+    private readonly int[,] routeCoords_IntArray = new int[2,2];
 
-    int[][] mappedEniviornment_IntArray2D = inputEniviornment_IntArray2D;
+    private readonly int matrixDimension_Int = inputEniviornment_IntArray2D.Length;
+
+    private readonly int[][] mappedEniviornment_IntArray2D = inputEniviornment_IntArray2D;
 
     public void Solve_Function(bool lowerStart_Bool)
     {
 
-        int coords_Int = 0;
+        int coords_Int = 0;        
+
+        for (int row_Int = 0; row_Int<matrixDimension_Int; row_Int++)
+        {
+
+            for (int column_Int = 0; column_Int<matrixDimension_Int ;column_Int++)
+            {
+
+                mappedEniviornment_IntArray2D[row_Int][column_Int] -= 48;
+                
+            }
+            
+        }
 
         for (int row_int = 0; row_int < mappedEniviornment_IntArray2D.Length; row_int++)
         {
@@ -25,10 +37,12 @@ public class Bot(in int[][] inputEniviornment_IntArray2D)
 
                 coords_Int++;
 
-                if(coords_Int==2)
+                if(coords_Int>2)
                 {
 
-                    RouteCoords_IntArray(lowerStart_Bool);
+                    System.Console.WriteLine("Detected Multipl Starts and/or Goals! Exiting Program");
+
+                    Thread.Sleep(1000);
 
                     return;
 
@@ -36,7 +50,9 @@ public class Bot(in int[][] inputEniviornment_IntArray2D)
                 
             }
             
-        }        
+        }
+
+        RouteCoords_IntArray(lowerStart_Bool);        
 
     }
 
@@ -53,7 +69,7 @@ public class Bot(in int[][] inputEniviornment_IntArray2D)
 
         string column_String = "";
 
-        int ColumnDIf_Int;
+        int columnDifference_Int;
 
         int rowDif_Int = routeCoords_IntArray[0,1]-routeCoords_IntArray[1,1];
 
@@ -64,12 +80,12 @@ public class Bot(in int[][] inputEniviornment_IntArray2D)
 
             row_String = "UP";
 
-            ColumnDIf_Int = routeCoords_IntArray[0,2]-routeCoords_IntArray[1,2];
+            columnDifference_Int = routeCoords_IntArray[0,2]-routeCoords_IntArray[1,2];
 
-            if(ColumnDIf_Int<0)
+            if(columnDifference_Int<0)
             {
 
-                ColumnDIf_Int = -ColumnDIf_Int;
+                columnDifference_Int = -columnDifference_Int;
 
                 column_String = "Left";
 
@@ -85,12 +101,12 @@ public class Bot(in int[][] inputEniviornment_IntArray2D)
 
             row_String = "Down";
 
-            ColumnDIf_Int = routeCoords_IntArray[0,2]-routeCoords_IntArray[1,2];
+            columnDifference_Int = routeCoords_IntArray[0,2]-routeCoords_IntArray[1,2];
 
-            if(ColumnDIf_Int<0)
+            if(columnDifference_Int<0)
             {
 
-                ColumnDIf_Int = -ColumnDIf_Int;
+                columnDifference_Int = -columnDifference_Int;
 
                 column_String = "Right";
 
@@ -110,7 +126,7 @@ public class Bot(in int[][] inputEniviornment_IntArray2D)
             
         }
 
-        for (int i = 0; i < ColumnDIf_Int; i++)
+        for (int i = 0; i < columnDifference_Int; i++)
         {
 
             System.Console.WriteLine(column_String);
