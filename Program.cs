@@ -17,7 +17,7 @@ public partial class Program
 
         int dimension_Int;
 
-        while(!int.TryParse(Console.ReadLine(), out dimension_Int) | DimensionCheck_SubFunction(dimension_Int))
+        while(!int.TryParse(Console.ReadLine(), out dimension_Int) & DimensionCheck_SubFunction(dimension_Int))
         {
 
             System.Console.WriteLine("Enter A Number Between 1 And 100");
@@ -25,6 +25,35 @@ public partial class Program
             Console.Clear();
             
         }
+
+        static bool DimensionCheck_SubFunction(int dimension_Int)
+        {
+
+            if(99<dimension_Int)
+            {
+
+                System.Console.WriteLine("Dimension Should Be Smaller Than 100");
+
+                Thread.Sleep(500);
+                
+                return true;
+                
+            }
+
+            if(dimension_Int<2)
+            {
+
+                System.Console.WriteLine("Dimension Can't Be Smaller Than 2");
+
+                Thread.Sleep(500);
+                
+                return true;
+                
+            }
+
+            return false;
+
+        }        
 
         mapEniviornment_IntArray2D = new int[dimension_Int][];
 
@@ -101,40 +130,15 @@ public partial class Program
 
             if(goal_Bool & !start_Bool)lowerStart_Bool = true;
 
-            mapEniviornment_IntArray2D[row_Int] = [.. userLine_String.Replace("-","0").Replace("b","1").Replace("c","1")];
+            mapEniviornment_IntArray2D[row_Int] = [.. userLine_String.Replace("-","0").Replace("b","1").Replace("c","1")];            
 
         }
 
         if(!goal_Bool | !start_Bool)return;
 
-        static bool DimensionCheck_SubFunction(int dimension_Int)
-        {
+        Bot myBot_BotClass = new(mapEniviornment_IntArray2D);
 
-            if(99<dimension_Int)
-            {
-
-                System.Console.WriteLine("Dimension Should Be Smaller Than 100");
-
-                Thread.Sleep(500);
-                
-                return true;
-                
-            }
-
-            if(dimension_Int<2)
-            {
-
-                System.Console.WriteLine("Dimension Can't Be Smaller Than 2");
-
-                Thread.Sleep(500);
-                
-                return true;
-                
-            }
-
-            return false;
-
-        }        
+        myBot_BotClass.Solve_Function(lowerStart_Bool);
                 
     }
 

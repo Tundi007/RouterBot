@@ -1,21 +1,14 @@
 namespace BotBattery;
-public class Bot
+public class Bot(in int[][] inputEniviornment_IntArray2D)
 {
     
     int dimensions_Int = 0;
 
     int[,] routeCoords_IntArray = new int[2,2];
 
-    int[][]mappedEniviornment_IntArray2D;
+    int[][] mappedEniviornment_IntArray2D = inputEniviornment_IntArray2D;
 
-    Bot(int[][] inputEniviornment_IntArray2D)
-    {
-
-        mappedEniviornment_IntArray2D = inputEniviornment_IntArray2D;
-
-    }
-
-    void Solve_Function(bool lowerStart_Bool)
+    public void Solve_Function(bool lowerStart_Bool)
     {
 
         int coords_Int = 0;
